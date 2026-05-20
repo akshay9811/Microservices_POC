@@ -1,0 +1,36 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: quizapp-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: Ruchi@123
+      MYSQL_DATABASE: quiz_app
+    ports:
+      - "3306:3306"
+    volumes:
+      - quizapp_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pRuchi@123"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  quizapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: quizapp-api
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/quiz_app
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Ruchi@123
+    ports:
+      - "8080:8080"
+
+volumes:
+  quizapp_mysql_data:

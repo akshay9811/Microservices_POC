@@ -1,0 +1,6 @@
+target
+.git
+.agents
+.codex
+.mvn/wrapper/maven-wrapper.jar
+*.log

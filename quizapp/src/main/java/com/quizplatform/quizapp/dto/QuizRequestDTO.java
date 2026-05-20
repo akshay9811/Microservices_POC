@@ -6,7 +6,7 @@ public record QuizRequestDTO(
 		String title,
 		String description,
 		DifficultyLevel difficultyLevel,
-		Integer timeLimitMinutes
+		Integer timeLimitInMinutes
 		) {
 
 }
